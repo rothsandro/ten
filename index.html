@@ -24,19 +24,13 @@
               <p>
                 <strong>Rules:</strong>
                 A new digit appears every second. Your goal is to find two or
-                three digits which add up to 10. Click on a digit to select it.
-                The selected numbers disappear if the sum of your selection is
-                10.
+                three digits which add up to 10. Click on a digit to select it and it will disappear.
               </p>
               <p>
                 You lose when there are more than 10 numbers on the screen. You
-                lose when you selected two digits whose sum is greather than 10.
+                lose when you selected two digits whose sum is greater than 10.
                 You lose when you selected three digits whose sum is not equal
                 to 10.
-              </p>
-              <p>
-                You will not see which digits you have selected. You cannot
-                unselect a selected number.
               </p>
               <p>You can't win, the game goes on forever. Let's play!</p>
               <button @click="reset()" class="btn">Start game</button>
@@ -50,13 +44,12 @@
           </template>
           <template x-if="status === 'PLAYING'">
             <div x-interval="addNumber()" x-effect="validate()" class="numbers">
-              <div x-show="numbers.length === 0 && score === 0">
+              <div x-show="numbers.length === 0 && selected.length === 0">
                 Starting...
               </div>
               <template x-for="(no, idx) in numbers">
                 <button
                   @click="selectIndex(idx); checkTarget()"
-                  :aria-pressed="selectedIdx.includes(idx)"
                   class="number-btn"
                 >
                   <span x-text="no"></span>

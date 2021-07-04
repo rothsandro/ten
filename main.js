@@ -17,12 +17,11 @@ Alpine.data("game", () => ({
   minSelection: 2,
   maxSelection: 3,
   maxNumbers: 10,
-  selectedIdx: [],
+  selected: [],
   score: 0,
   status: "INIT",
   get currentTarget() {
-    return this.selectedIdx
-      .map((idx) => this.numbers[idx])
+    return this.selected
       .reduce((acc, no) => acc + no, 0);
   },
   addNumber() {
@@ -31,7 +30,7 @@ Alpine.data("game", () => ({
     );
   },
   reset() {
-    this.selectedIdx = [];
+    this.selected = [];
     this.numbers = [];
     this.score = 0;
     this.status = "PLAYING";
@@ -39,7 +38,7 @@ Alpine.data("game", () => ({
   validate() {
     if (
       this.currentTarget < this.target &&
-      this.selectedIdx.length < this.maxSelection &&
+      this.selected.length < this.maxSelection &&
       this.numbers.length <= this.maxNumbers
     ) {
       // Still playing
@@ -51,24 +50,18 @@ Alpine.data("game", () => ({
   checkTarget() {
     if (
       this.currentTarget === this.target &&
-      this.selectedIdx.length >= this.minSelection &&
-      this.selectedIdx.length <= this.maxSelection &&
+      this.selected.length >= this.minSelection &&
+      this.selected.length <= this.maxSelection &&
       this.numbers.length <= this.maxNumbers
     ) {
       this.score++;
-      this.removeSelection();
+      this.selected = [];
     }
   },
   selectIndex(idx) {
-    if (!this.selectedIdx.includes(idx)) {
-      this.selectedIdx.push(idx);
-    }
-  },
-  removeSelection() {
-    this.numbers = this.numbers.filter(
-      (_, idx) => !this.selectedIdx.includes(idx)
-    );
-    this.selectedIdx.length = 0;
+    const number = this.numbers[idx];
+    this.selected.push(number);
+    this.numbers.splice(idx, 1);
   },
 }));
 
