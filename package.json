@@ -6,6 +6,10 @@
     "serve": "vite preview"
   },
   "devDependencies": {
+    "sass": "^1.35.1",
     "vite": "^2.3.8"
+  },
+  "dependencies": {
+    "alpinejs": "^3.2.1"
   }
 }

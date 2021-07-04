@@ -4,10 +4,69 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>ten game</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div x-data="game">
+      <div class="container">
+        <header>
+          <h1 class="app-name">
+            <span class="app-name__box" aria-hidden="true">
+              <span>10</span>
+            </span>
+            <span>ten game</span>
+          </h1>
+          <div>Score: <span x-text="score"></span></div>
+        </header>
+        <div>
+          <template x-if="status === 'INIT'">
+            <div>
+              <p>
+                <strong>Rules:</strong>
+                A new digit appears every second. Your goal is to find two or
+                three digits which add up to 10. Click on a digit to select it.
+                The selected numbers disappear if the sum of your selection is
+                10.
+              </p>
+              <p>
+                You lose when there are more than 10 numbers on the screen. You
+                lose when you selected two digits whose sum is greather than 10.
+                You lose when you selected three digits whose sum is not equal
+                to 10.
+              </p>
+              <p>
+                You will not see which digits you have selected. You cannot
+                unselect a selected number.
+              </p>
+              <p>You can't win, the game goes on forever. Let's play!</p>
+              <button @click="reset()" class="btn">Start game</button>
+            </div>
+          </template>
+          <template x-if="status === 'LOST'">
+            <div>
+              <p>Oh no, you lost! :-(</p>
+              <button @click="reset()" class="btn">New game</button>
+            </div>
+          </template>
+          <template x-if="status === 'PLAYING'">
+            <div x-interval="addNumber()" x-effect="validate()" class="numbers">
+              <div x-show="numbers.length === 0 && score === 0">
+                Starting...
+              </div>
+              <template x-for="(no, idx) in numbers">
+                <button
+                  @click="selectIndex(idx); checkTarget()"
+                  :aria-pressed="selectedIdx.includes(idx)"
+                  class="number-btn"
+                >
+                  <span x-text="no"></span>
+                </button>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
