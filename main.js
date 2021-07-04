@@ -14,9 +14,9 @@ Alpine.data("game", () => ({
   template: [1, 2, 3, 4, 5, 6, 7, 8, 9],
   numbers: [],
   target: 10,
-  minCount: 2,
-  maxCount: 3,
-  maxLength: 10,
+  minSelection: 2,
+  maxSelection: 3,
+  maxNumbers: 10,
   selectedIdx: [],
   score: 0,
   status: "INIT",
@@ -39,8 +39,8 @@ Alpine.data("game", () => ({
   validate() {
     if (
       this.currentTarget < this.target &&
-      this.selectedIdx.length < this.maxCount &&
-      this.numbers.length <= this.maxLength
+      this.selectedIdx.length < this.maxSelection &&
+      this.numbers.length <= this.maxNumbers
     ) {
       // Still playing
       return;
@@ -51,19 +51,17 @@ Alpine.data("game", () => ({
   checkTarget() {
     if (
       this.currentTarget === this.target &&
-      this.selectedIdx.length >= this.minCount &&
-      this.selectedIdx.length <= this.maxCount &&
-      this.numbers.length <= this.maxLength
+      this.selectedIdx.length >= this.minSelection &&
+      this.selectedIdx.length <= this.maxSelection &&
+      this.numbers.length <= this.maxNumbers
     ) {
       this.score++;
       this.removeSelection();
     }
   },
-  selectIndex(idx, toggle = false) {
+  selectIndex(idx) {
     if (!this.selectedIdx.includes(idx)) {
       this.selectedIdx.push(idx);
-    } else if (toggle) {
-      this.selectedIdx = this.selectedIdx.filter(item => item !== idx);
     }
   },
   removeSelection() {
