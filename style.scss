@@ -103,4 +103,8 @@ p {
   line-height: 4rem;
   text-align: center;
 
+  &:focus-visible {
+    outline: none;
+    border-color: #3e63dd;
+  }
 }
